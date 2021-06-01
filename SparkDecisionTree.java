@@ -25,7 +25,7 @@ import scala.Tuple2;
 
 import static org.apache.spark.sql.functions.*;
 
-public class SparkDecisionTree {
+public class SparkDecisionTree implements Serializable {
     
     private JavaSparkContext context;
     
