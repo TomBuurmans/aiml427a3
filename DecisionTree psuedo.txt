@@ -1,0 +1,12 @@
+Set start time
+Create new spark session
+Read data as csv 
+Add column headers to data
+Set all but the last column to Double type, with String for the last
+Split data into 70% training and 30% testing
+Create labelled points for each row in the data
+Generate decision tree model
+Calculate the test and training error
+Set the duration from the start time
+Print results
+Save results to file
