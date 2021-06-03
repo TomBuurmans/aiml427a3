@@ -1,0 +1,10 @@
+1. Configure new spark session and spark context
+2. Load the data as RDD string
+3. Convert RDD to javaRDD string.
+4. Randomly split the data by 7:3 ratio using random seed
+5. Use 70% of the data as training set and use the rest for testing the model
+6. Convert the class label for both test and training set into binary form for class prediction
+7. Configure new Logistic regression model
+8. Train the model using the labelled training data.
+9. Test the model using the labelled test data.
+10. Calculate accuracy and test error of the Logistic Regression model.

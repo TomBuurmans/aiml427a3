@@ -4,6 +4,7 @@ import org.apache.spark.SparkConf;
 import org.apache.spark.SparkContext;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
+import org.apache.spark.ml.classification.LogisticRegressionTrainingSummary;
 import org.apache.spark.mllib.regression.LabeledPoint;
 import org.apache.spark.rdd.RDD;
 import org.apache.spark.mllib.classification.LogisticRegressionWithLBFGS;
@@ -46,6 +47,7 @@ public final class LRModel {
 	    	      .setNumClasses(10)
 	    	      .run(trainLabeledPoints.rdd());  
 	    
+	    
 	    System.out.println("<<<<<<<<<<<<<<<<<<<<<<< TRAINING >>>>>>>>>>>>>>>>>>>>>>>>");
 	    
 	    //Testing the model
@@ -57,6 +59,9 @@ public final class LRModel {
 	    MulticlassMetrics metrics = new MulticlassMetrics(predictionAndLabels.rdd());
 	    double accuracy = metrics.accuracy();
 	    System.out.println("Accuracy = " + accuracy);
+	    
+	    double testErr = 1.0 - accuracy;
+	    System.out.println("Test Error = "+ testErr );
 
 	    sc.stop();
 		
