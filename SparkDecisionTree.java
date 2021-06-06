@@ -79,9 +79,9 @@ public class SparkDecisionTree implements Serializable {
 		outputString += "Duration: " + duration + "ms\n";
 		outputString += "Tree model:\n" + model.toDebugString() + "\n";
 
-        JavaRDD<String> output = context.parallelize(new ArrayList<String>() {{
-            add(outputString);
-        }});
+        List<String> outputStrings = new ArrayList<String>();
+		outputStrings.add(outputString);
+		JavaRDD<String> output = context.parallelize(outputStrings);
 		output.saveAsTextFile(outputDir);
 	}
     
