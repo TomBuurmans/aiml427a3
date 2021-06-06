@@ -59,7 +59,7 @@ public class SparkDecisionTree implements Serializable {
 		Map<Integer, Integer> categoricalFeaturesInfo = new HashMap<>();
 		Integer maxDepth = 16;// try others
 		Integer maxBins = 64;// try others
-		String impurity = "gini"// try entropy but in theory gini should be better
+		String impurity = "gini";// try entropy but in theory gini should be better
 		final DecisionTreeModel model = DecisionTree.trainClassifier(trainLabeledPoints, numClasses, categoricalFeaturesInfo, impurity, maxDepth, maxBins);
 
 		JavaPairRDD<Double, Double> train_yHatToY = trainLabeledPoints.mapToPair(p -> new Tuple2<>(model.predict(p.features()), p.label()));
