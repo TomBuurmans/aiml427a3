@@ -8,3 +8,4 @@
 8. Train the model using the labelled training data.
 9. Test the model using the labelled test data.
 10. Calculate accuracy and test error of the Logistic Regression model.
+11. Display the result as a text file in the output directory.
