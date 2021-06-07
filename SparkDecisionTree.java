@@ -59,8 +59,8 @@ public class SparkDecisionTree implements Serializable {
 		Map<Integer, Integer> categoricalFeaturesInfo = new HashMap<>();
 		Integer maxDepth = 16;// try others
 		Integer maxBins = 64;// try others
-		String impurity = "gini"// try entropy but in theory gini should be better
-		final DecisionTreeModel model = DecisionTree.trainClassifier(trainLabeledPoints, numClasses, categoricalFeaturesInfo, impurity, maxDepth, maxBins);
+		String impurity = "gini";// try entropy but in theory gini should be better
+		final DecisionTreeModel model = DecisionTree.trainClassifier(trainLabeledPoints, 2, categoricalFeaturesInfo, impurity, maxDepth, maxBins);
 
 		JavaPairRDD<Double, Double> train_yHatToY = trainLabeledPoints.mapToPair(p -> new Tuple2<>(model.predict(p.features()), p.label()));
 		double trainErr = train_yHatToY.filter(pl -> !pl._1().equals(pl._2())).count() / (double) trainLabeledPoints.count();
@@ -79,9 +79,9 @@ public class SparkDecisionTree implements Serializable {
 		outputString += "Duration: " + duration + "ms\n";
 		outputString += "Tree model:\n" + model.toDebugString() + "\n";
 
-        JavaRDD<String> output = context.parallelize(new ArrayList<String>() {{
-            add(outputString);
-        }});
+        List<String> outputStrings = new ArrayList<String>();
+		outputStrings.add(outputString);
+		JavaRDD<String> output = context.parallelize(outputStrings);
 		output.saveAsTextFile(outputDir);
 	}
     
@@ -96,17 +96,13 @@ public class SparkDecisionTree implements Serializable {
     
     private JavaRDD<LabeledPoint> getLabeledPoints(JavaRDD<Row> set) {
 		return set.map(p -> {
-			String[] tokens = p.split(",");
-			double[] features = new double[tokens.length - 1];
-			for (int i = 0; i < features.length; i++) {
-				features[i] = Double.parseDouble(tokens[i]);
+			int l = p.length();
+			double[] features = new double[l - 2];
+			for(int i = 0; i < (l - 2); i++) {
+				features[i] = p.getDouble(i);
 			}
-			DenseVector v = new DenseVector(features);
-			if (tokens[features.length].equals("normal")) {
-				return new LabeledPoint(0.0, v);
-			} else {
-				return new LabeledPoint(1.0, v);
-			}
+			Vector v = new DenseVector(features);
+			return new LabeledPoint(p.getDouble(l-1), v);
 		});
 	}
 }
