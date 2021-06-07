@@ -26,7 +26,7 @@ public final class LRModel {
 		long startTime = System.currentTimeMillis();
 
 		//configure spark
-		SparkConf conf = new SparkConf().setAppName("LogisticRegression").setMaster("local");
+		SparkConf conf = new SparkConf().setAppName("LogisticRegression").setMaster("yarn-cluster");
 	    SparkContext sc = new SparkContext(conf);
 	    JavaSparkContext  context = new JavaSparkContext(sc);
 
